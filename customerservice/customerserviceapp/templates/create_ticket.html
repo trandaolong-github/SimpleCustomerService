@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Create Ticket{% endblock %}
+
+{% block heading %}Create Ticket{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form ticket_form %}
+    <button type="submit" class="btn btn-pink pull-right">Create</button>
+</form>
+{% endblock %}

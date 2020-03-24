@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="panel">
+    <div class="panel-heading bg-blue">
+        <h4 class="panel-title text-center text-white">
+            {{ ticket.title }}
+        </h4>
+    </div>
+    <br/>
+    <br/>
+    <div class="panel-heading bg-white">
+        <h4 class="panel-title text-center text-black">
+            {{ ticket.description }}
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="text-right">
+            <form>
+                <button formaction="{% url 'add-comment' ticket.id %}" class="btn btn-pink">Add Comment</button>
+            </form>
+            <br/>
+            <br/>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr class="bg-gray text-black">
+                    <th>Content</th>
+                    <th>Created by</th>
+                    <th>Created at</th>
+                    <th>Delete comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                    <tr>
+                        <td scope="row">{{ comment.content }}</td>
+                        <td>{{ comment.user }}</td>
+                        <td>{{ comment.created_at }}</td>
+                        <td>
+                            <form>
+                                <button formaction="{% url 'delete-comment' comment.id %}" class="btn btn-pink">Delete</button>
+                            </form>                            
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <a href="{% url 'sign-out' %}?next={{ request.path }}" class="btn btn-pink">Logout</a>
+    </div>
+</div>
+{% endblock %}

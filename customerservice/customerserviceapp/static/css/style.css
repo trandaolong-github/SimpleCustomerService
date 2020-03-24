@@ -1,0 +1,60 @@
+body {
+    padding-top: 50px;
+    background-color: #EDF2F5;
+    overflow: auto;
+}
+
+.bg-blue {
+    background-color: #3F3F63;
+}
+
+.bg-gray {
+    background-color: gray;
+}
+
+.bg-white {
+    background-color: #4d4e6e;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-black {
+    color: black;
+}
+
+.btn-pink {
+    color: white;
+    background-color: #EE5462;
+}
+
+.btn-test {
+    color: black;
+    background-color: green;
+}
+
+.btn-pink:hover,
+.btn-pink:focus {
+    color: white;
+    background-color: #DA4F5D;
+}
+
+/* CONTENT */
+.content {
+    padding:  0 300px;
+}
+
+.content .panel {
+    border: none;
+}
+
+.table > thread > tr > th,
+.table > thread > tr > td {
+    vertical-align: middle;
+}
+
+.table,
+.table > thread > tr > th {
+    border-color: #88A1B2;
+}

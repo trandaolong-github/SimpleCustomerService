@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="panel">
+    <div class="panel-heading bg-blue">
+        <h4 class="panel-title text-center text-white">
+            Tickets
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="text-right">
+            <a href="{% url 'create-ticket' %}" class="btn btn-pink">Add Ticket</a>
+            <br/>
+            <br/>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr class="bg-gray text-black">
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Created by</th>
+                    <th>Created at</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td scope="row">{{ ticket.id }}</td>
+                        <td>{{ ticket.title }}</td>
+                        <td>{{ ticket.owner }}</td>
+                        <td>{{ ticket.created_at }}</td>
+                        <td>
+                            <form>
+                                <button formaction="{% url 'ticket-details' ticket.id %}" class="btn btn-pink">Read More</button>
+                            </form>                            
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <a href="{% url 'sign-out' %}?next={{ request.path }}" class="btn btn-pink">Logout</a>
+    </div>
+</div>
+{% endblock %}
