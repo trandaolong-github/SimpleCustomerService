@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 
-{% block title %}Create Ticket{% endblock %}
-
-{% block heading %}Create Ticket{% endblock %}
+{% block title %}Tạo đơn hàng{% endblock %}
 
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form ticket_form %}
-    <button type="submit" class="btn btn-pink pull-right">Create</button>
-</form>
+<div class="row justify-content-center">
+        <div class="col-lg-4 col-lg-offset-4">
+            <h3 class="text-center text-uppercase"><b>Tạo đơn hàng</b></h3>
+            <br>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form ticket_form %}
+                <button type="submit" class="btn btn-green pull-right">Tạo đơn hàng</button>
+            </form>
+        </div>
+</div>
 {% endblock %}
