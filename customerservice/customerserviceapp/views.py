@@ -2,67 +2,92 @@ from django import forms
 from django.core import serializers
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import gettext_lazy as _
 
-from customerserviceapp.forms import TicketFormCreate, TicketFormEditAdmin, TicketFormEditDist
-from customerserviceapp.models import Ticket
+from customerserviceapp.models import Income, Expense
+from customerserviceapp.forms import CreateIncomeForm, CreateExpenseForm
 import logging
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 def home(request):
-    return redirect(show_tickets)
+    return redirect(show_incomes)
 
 @login_required(login_url='/sign-in/')
-@user_passes_test(lambda u:u.is_superuser or u.is_receiver, login_url='/')
-def create_ticket(request):
-    ticket_form = TicketFormCreate()
+def create_income(request):
+    create_income_form = CreateIncomeForm()
     if request.method == "POST":
-        ticket_form = TicketFormCreate(request.POST)
-        if ticket_form.is_valid():
-            owner = request.user
-            new_ticket = ticket_form.save(commit=False)
-            new_ticket.owner = owner
-            new_ticket.status = Ticket.PACKING
-            new_ticket.save()
+        create_income_form = CreateIncomeForm(request.POST)
+        if create_income_form.is_valid():
+            new_income = create_income_form.save(commit=False)
+            new_income.save()
 
-            return redirect(show_tickets)
-    return render(request, 'create_ticket.html', {'ticket_form': ticket_form})
+            return redirect(show_incomes)
+    return render(request, 'create_income.html', {'create_income_form': create_income_form})
 
 @login_required(login_url='/sign-in/')
-def show_tickets(request):
+def show_incomes(request):
     if request.user.is_superuser:
-        ticket = Ticket.objects.order_by("-id").values()
-        return render(request, 'ticket_admin.html', {"tickets": list(ticket)})
+        incomes = Income.objects.order_by("-id").values()
+        return render(request, 'income_admin.html', {"incomes": list(incomes)})
 
-    ticket = Ticket.objects.order_by("-id")[:10]
-    return render(request, 'ticket.html', {"tickets": ticket})
+    incomes = Income.objects.order_by("-id")[:10]
+    return render(request, 'income.html', {"incomes": incomes})
 
 @login_required(login_url='/sign-in/')
-@user_passes_test(lambda u:u.is_superuser or u.is_distributor, login_url='/')
-def edit_ticket(request, ticket_id):
-    ticket = Ticket.objects.get(id=ticket_id)
+@user_passes_test(lambda u:u.is_superuser, login_url='/')
+def edit_income(request, income_id):
+    income = Income.objects.get(id=income_id)
 
     if request.method == "POST":
-        if request.user.is_superuser:
-            form = TicketFormEditAdmin(request.POST, request.FILES, instance=ticket)
-        else:
-            form = TicketFormEditDist(request.POST, request.FILES, instance=ticket)
+        form = CreateIncomeForm(request.POST, request.FILES, instance=income)
         if form.is_valid():
             form.save()
-            return redirect(show_tickets)
+            return redirect(show_incomes)
     else:
-        if request.user.is_superuser:
-            form = TicketFormEditAdmin(instance=ticket)
-        else:
-            form = TicketFormEditDist(instance=ticket)
+        form = CreateIncomeForm(instance=income)
 
-    return render(request, 'edit_ticket.html', {"form": form})
+    return render(request, 'edit_income.html', {"form": form})
+
+@login_required(login_url='/sign-in/')
+def create_expense(request):
+    create_expense_form = CreateExpenseForm()
+    if request.method == "POST":
+        create_expense_form = CreateExpenseForm(request.POST)
+        if create_expense_form.is_valid():
+            new_income = create_expense_form.save(commit=False)
+            new_income.save()
+
+            return redirect(show_expenses)
+    return render(request, 'create_expense.html', {'create_expense_form': create_expense_form})
+
+@login_required(login_url='/sign-in/')
+def show_expenses(request):
+    if request.user.is_superuser:
+        expenses = Expense.objects.order_by("-id").values()
+        return render(request, 'expense_admin.html', {"expenses": list(expenses)})
+
+    expenses = Expense.objects.order_by("-id")[:10]
+    return render(request, 'expense.html', {"expenses": expenses})
+
+@login_required(login_url='/sign-in/')
+@user_passes_test(lambda u:u.is_superuser, login_url='/')
+def edit_expense(request, expense_id):
+    expense = Expense.objects.get(id=expense_id)
+
+    if request.method == "POST":
+        form = CreateExpenseForm(request.POST, request.FILES, instance=expense)
+        if form.is_valid():
+            form.save()
+            return redirect(show_expenses)
+    else:
+        form = CreateExpenseForm(instance=expense)
+
+    return render(request, 'edit_expense.html', {"form": form})
 
 @login_required(login_url='/sign-in/')
 def change_password(request):

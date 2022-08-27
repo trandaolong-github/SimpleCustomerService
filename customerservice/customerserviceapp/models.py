@@ -1,33 +1,42 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-from .managers import CustomUserManager
 
 
-class Ticket(models.Model):
-    PACKING = 1
-    DONE = 2
-
-    STATUS = (
-        (PACKING, "Đang lấy hàng"),
-        (DONE, "Đã giao hàng")
-    )
-    customer = models.CharField(max_length=100)
+class Income(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
-    status = models.IntegerField(choices=STATUS)
-    quantity1 = models.FloatField()
-    quantity2 = models.FloatField()
-    quantity3 = models.FloatField()
-    quantity4 = models.FloatField()
+    content = models.CharField(max_length=200)
+    amount  = models.CharField(max_length=20)
+    account = models.CharField(max_length=100)
+    income_type = models.CharField(max_length=100)
+    accounting_voucher = models.CharField(max_length=100)
+    budget = models.CharField(max_length=100)
+    contract = models.CharField(max_length=100)
+    branch = models.CharField(max_length=100)
+
+    applicant = models.CharField(max_length=100)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.id)
 
 
-class CustomUser(AbstractUser):
-    is_receiver = models.BooleanField(default=False)
-    is_distributor = models.BooleanField(default=False)
+class Expense(models.Model):
+    created_at = models.DateTimeField(default=timezone.now)
+    content = models.CharField(max_length=200)
+    amount  = models.CharField(max_length=20)
+    account = models.CharField(max_length=100)
+    expense_type = models.CharField(max_length=100)
+    accounting_voucher = models.CharField(max_length=100)
+    budget = models.CharField(max_length=100)
+    contract = models.CharField(max_length=100)
+    branch = models.CharField(max_length=100)
 
-    objects = CustomUserManager()
+    applicant = models.CharField(max_length=100)
+    company = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
+
+    def __str__(self):
+        return str(self.id)

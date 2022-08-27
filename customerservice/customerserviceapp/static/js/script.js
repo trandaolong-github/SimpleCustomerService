@@ -124,7 +124,7 @@ const showPage = (page) => {
             }
             if(addHRef){
                 let a = document.createElement('a');
-                a.setAttribute('href', "/edit-ticket/"+field+"/");
+                a.setAttribute('href', "/edit-income/"+field+"/");
                 a.innerHTML = field;
                 td.appendChild(a);
                 addHRef = false;

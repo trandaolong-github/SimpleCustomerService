@@ -1,59 +1,40 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser
-from customerserviceapp.models import Ticket
+from customerserviceapp.models import Income, Expense
 
 
-class TicketFormEditDist(forms.ModelForm):
-    customer = forms.CharField(disabled= True, required= False, label = "Khách hàng")
-    quantity1 = forms.FloatField(disabled= True, required= False, label = "Đá loại 1 (Tấn)")
-    quantity2 = forms.FloatField(disabled= True, required= False, label = "Đá loại 2 (Tấn)")
-    quantity3 = forms.FloatField(disabled= True, required= False, label = "Đá loại 3 (Tấn)")
-    quantity4 = forms.FloatField(disabled= True, required= False, label = "Đá loại 4 (Tấn)")
+class CreateIncomeForm(forms.ModelForm):
     class Meta:
-        model = Ticket
-        fields = ('customer', 'quantity1', 'quantity2', 'quantity3', 'quantity4', 'status')
+        model = Income
+        fields = ('content', 'amount', 'account', 'income_type', 'accounting_voucher', 'budget', 'contract', 'branch', 'applicant', 'company', 'address')
         labels = {
-            'status': 'Tình trạng'
+            'content': "Nội dung thu tiền",
+            'amount': "Số tiền",
+            'account': "Tài khoản",
+            'income_type': "Loại doanh thu",
+            'accounting_voucher': "Chứng từ",
+            'budget': "Mã ngân sách",
+            'contract': "Mã hợp đồng/công trình",
+            'branch': "Chi nhánh",
+            'applicant': "Họ tên người nộp",
+            'company': "Công ty",
+            'address': "Địa chỉ"
         }
 
 
-class TicketFormEditAdmin(forms.ModelForm):
+class CreateExpenseForm(forms.ModelForm):
     class Meta:
-        model = Ticket
-        fields = ('customer', 'quantity1', 'quantity2', 'quantity3', 'quantity4', 'status')
+        model = Expense
+        fields = ('content', 'amount', 'account', 'expense_type', 'accounting_voucher', 'budget', 'contract', 'branch', 'applicant', 'company', 'address')
         labels = {
-            'customer': 'Khách hàng',
-            'quantity1': 'Đá loại 1 (Tấn)',
-            'quantity2': 'Đá loại 2 (Tấn)',
-            'quantity3': 'Đá loại 3 (Tấn)',
-            'quantity4': 'Đá loại 4 (Tấn)',
-            'status': 'Tình trạng'
+            'content': "Nội dung chi tiền",
+            'amount': "Số tiền",
+            'account': "Tài khoản",
+            'expense_type': "Loại chi phí",
+            'accounting_voucher': "Chứng từ",
+            'budget': "Mã ngân sách",
+            'contract': "Mã hợp đồng/công trình",
+            'branch': "Chi nhánh",
+            'applicant': "Họ tên người nộp",
+            'company': "Công ty",
+            'address': "Địa chỉ"
         }
-
-
-class TicketFormCreate(forms.ModelForm):
-    class Meta:
-        model = Ticket
-        fields = ('customer', 'quantity1', 'quantity2', 'quantity3', 'quantity4')
-        labels = {
-            'customer': 'Khách hàng',
-            'quantity1': 'Đá loại 1 (Tấn)',
-            'quantity2': 'Đá loại 2 (Tấn)',
-            'quantity3': 'Đá loại 3 (Tấn)',
-            'quantity4': 'Đá loại 4 (Tấn)',
-        }
-
-
-class CustomUserCreationForm(UserCreationForm):
-
-    class Meta(UserCreationForm):
-        model = CustomUser
-        fields = ('username',)
-
-
-class CustomUserChangeForm(UserChangeForm):
-
-    class Meta:
-        model = CustomUser
-        fields = ('username',)

@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'customerserviceapp.CustomUser'
+#AUTH_USER_MODEL = 'customerserviceapp.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -131,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -153,3 +154,9 @@ LOGGING = {
         },
     },
 }
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASE['default'].update(db_from_env)
