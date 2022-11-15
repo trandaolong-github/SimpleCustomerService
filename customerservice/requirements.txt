@@ -22,7 +22,7 @@ django-bootstrap4==1.1.1
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
-pillow==9.2.0
+pillow==9.3.0
     # via -r requirements.in
 psycopg==3.1
     # via -r requirements.in
