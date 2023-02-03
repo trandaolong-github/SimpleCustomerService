@@ -14,7 +14,7 @@ beautifulsoup4==4.11.1
     # via django-bootstrap4
 dj-database-url==1.0.0
     # via -r requirements.in
-django==4.1
+django==4.1.6
     # via
     #   -r requirements.in
     #   dj-database-url
